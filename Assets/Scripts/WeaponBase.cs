@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public class WeaponBase : MonoBehaviour
+public abstract class WeaponBase : MonoBehaviour
 {
     [SerializeField]
     public PieceType CurrentPieceType = PieceType.None;
@@ -14,8 +15,21 @@ public class WeaponBase : MonoBehaviour
     [SerializeField] 
     protected float ShootInterval = 0.5f;
 
-    public void Attack()
+    private bool ReadyToShoot = true;
+
+    public abstract void Attack(GameObject User);
+
+    public IEnumerator Shoot(GameObject User)
     {
-        // Do nothing
+        ReadyToShoot = false;
+        yield return new WaitForSeconds(ShootInterval);
+        Instantiate(AmmoRef, User.transform.position, Quaternion.identity);
+        Attack(User);
+        ReadyToShoot = true;
+    }
+
+    public bool IsReady()
+    {
+        return ReadyToShoot;
     }
 }

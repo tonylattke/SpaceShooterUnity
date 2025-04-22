@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Inventory
 {
+	[SerializeField]
     private PieceType CurrentPieceType = PieceType.None;
     
     [SerializeField]
-    List<WeaponBase> Weapons = new List<WeaponBase>();
+    List<GameObject> Weapons = new List<GameObject>();
     
     public PieceType GetCurrentPieceType()
     {
         return CurrentPieceType;
     }
 
-    public WeaponBase GetCurrentWeaponGameObject()
+    public GameObject GetCurrentWeaponGameObject()
     {
         foreach (var Weapon in Weapons)
         {

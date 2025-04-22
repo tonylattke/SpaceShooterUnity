@@ -5,7 +5,7 @@ public class Player : ChessCharacter
 {
     void Start()
     {
-        //AvailablePiecePowers.Add(PieceType.None);
+        
     }
 
     void Update()
@@ -39,7 +39,13 @@ public class Player : ChessCharacter
 
     void UpdateShoot()
     {
-        if (Input.GetKey(KeyCode.Space))
-            Debug.Log("Shoot");
+        GameObject MyWeapon = MyInventory.GetCurrentWeaponGameObject();
+        if (MyWeapon == null)
+            return;
+
+        WeaponBase WeaponBaseComponent = MyWeapon.GetComponent<WeaponBase>();
+
+        if (Input.GetKey(KeyCode.Space) && WeaponBaseComponent.IsReady())
+            StartCoroutine(WeaponBaseComponent.Shoot(this.gameObject));
     }
 }
